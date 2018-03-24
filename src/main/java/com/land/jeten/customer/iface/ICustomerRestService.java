@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.List;
+import java.util.Map;
 
 @RequestMapping(value = "/customer")
 public interface ICustomerRestService {
@@ -15,7 +16,8 @@ public interface ICustomerRestService {
   List<Customer> getCustomerList();
 
   @RequestMapping(value = "/", method = RequestMethod.POST)
-  String postCustomer(@ModelAttribute Customer customer);
+  Map<String,Object> postCustomer(@ModelAttribute Customer customer);
+//  String postCustomer(@ModelAttribute Customer customer);
 
   @RequestMapping(value = "/{id}", method = RequestMethod.GET)
   Customer getCustomer(@PathVariable Long id);

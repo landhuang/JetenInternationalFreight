@@ -19,7 +19,7 @@ public class Customer implements Serializable {
   private String name;
 
   @Column(name = "weixinid",length=36,nullable=false)
-  private String v;
+  private String weixinid;
 
   @Column(name = "telphone",length=36,nullable=false)
   private String telphone;
@@ -46,12 +46,12 @@ public class Customer implements Serializable {
     this.name = name;
   }
 
-  public String getV() {
-    return v;
+  public String getWeixinid() {
+    return weixinid;
   }
 
-  public void setV(String v) {
-    this.v = v;
+  public void setWeixinid(String weixinid) {
+    this.weixinid = weixinid;
   }
 
   public String getTelphone() {

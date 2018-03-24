@@ -3,15 +3,16 @@ package com.land.jeten.customer.repository;
 import com.land.jeten.vo.Customer;
 import com.land.jeten.vo.LoginUser;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.Repository;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-public interface CustomerRepository extends Repository<Customer, Long>
+//public interface CustomerRepository extends Repository<Customer, Long>
+public interface CustomerRepository extends CrudRepository<Customer, Long>
 {
-
-    List<Customer> findByNameAndID(String name, String id);
+    List<Customer> findByNameAndId(String name, String id);
 
     @Query(value = "from Customer u where u.name=:name")
     List<Customer> findByName1(@Param("name") String name);

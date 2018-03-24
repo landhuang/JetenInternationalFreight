@@ -27,20 +27,41 @@ public class CustomerRestServiceImpl implements ICustomerRestService {
   @Override
   public List<Customer> getCustomerList() {
 
-    List<Customer> customers = customerRepository.findByName1("admin");
+//    List<Customer> customers = customerRepository.findByName1("admin");
+//    List<Customer> customers = customerRepository.findAll();
+    Iterable<Customer> iter = customerRepository.findAll();
+    List<Customer> list = new ArrayList();
+    iter.forEach(single ->{list.add(single);});
+    System.out.println("loginUsers"+list.size());
 
-    System.out.println("loginUsers"+customers.size());
-
-    return customers;
+    return list;
   }
 
+//  @Override
+//  public String postCustomer(Customer customer) {
+//
+//    customerRepository.save(customer);
+//
+//    List<Customer> customers = customerRepository.findByName1(customer.getName());
+//
+//    System.out.println("customers:"+customers.size()+"]");
+//
+//    return customers.get(0).getTelphone();
+//  }
+
   @Override
-  public String postCustomer(Customer customer) {
-    List<Customer> customers = customerRepository.findByName1(customer.getName());
+  public Map<String,Object> postCustomer(Customer customer) {
 
-    System.out.println("loginUsers"+customers.size());
+    customerRepository.save(customer);
 
-    return customers.get(0).getTelphone();
+
+    Map<String,Object> map = new Hashtable<>();
+
+
+    map.put("message","成功");
+
+
+    return map;
   }
 
   @Override
