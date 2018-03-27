@@ -17,14 +17,13 @@ public interface ICustomerRestService {
 
   @RequestMapping(value = "/", method = RequestMethod.POST)
   Map<String,Object> postCustomer(@ModelAttribute Customer customer);
-//  String postCustomer(@ModelAttribute Customer customer);
 
   @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-  Customer getCustomer(@PathVariable Long id);
+  Customer getCustomer(@PathVariable int id);
 
   @RequestMapping(value="/{id}", method=RequestMethod.PUT)
-  String putCustomer(@PathVariable Long id, @ModelAttribute Customer customer);
+  Map<String,Object> putCustomer(@PathVariable int id, @ModelAttribute Customer customer);
 
   @RequestMapping(value="/{id}", method=RequestMethod.DELETE)
-  String deleteCustomer(@PathVariable Long id);
+  Map<String,Object> deleteCustomer(@PathVariable int id);
 }

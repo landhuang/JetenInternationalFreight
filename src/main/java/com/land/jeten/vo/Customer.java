@@ -13,7 +13,7 @@ public class Customer implements Serializable {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id")
-  private String id;
+  private int id;
 
     @Column(name = "name",length=36,nullable=false)
   private String name;
@@ -30,11 +30,11 @@ public class Customer implements Serializable {
   @Column(name = "description",length=64,nullable=false)
   private String description;
 
-  public String getId() {
+  public int getId() {
     return id;
   }
 
-  public void setId(String id) {
+  public void setId(int id) {
     this.id = id;
   }
 
