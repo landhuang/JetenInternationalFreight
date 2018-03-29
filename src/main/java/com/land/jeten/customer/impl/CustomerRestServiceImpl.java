@@ -9,11 +9,18 @@ import com.land.jeten.login.repository.LoginUserRepository;
 import com.land.jeten.vo.Customer;
 import com.land.jeten.vo.LoginUser;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.web.bind.annotation.*;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.PageRequest;
+
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import java.util.*;
 
 @RestController
@@ -28,12 +35,42 @@ public class CustomerRestServiceImpl implements ICustomerRestService {
     private CustomerRepository customerRepository;
 
     @Override
-    public List<Customer> getCustomerList() {
+    public List<Customer> getCustomerList(Map<String, Object> map) {
 
 
-        Pageable page = new PageRequest(0,10);
+        Customer customer = new Customer();
 
-        Page<Customer> pageCustomer = customerRepository.findAll(page);
+        customer.setName("admin1");
+
+        Object objectPage = map.get("page");
+        Object objectSize = map.get("size");
+
+        int page = objectPage == null ? 0:(Integer)objectPage;
+        int size =  objectSize == null ? 10:(Integer)objectSize;
+
+        Pageable pageable = new PageRequest(page, size, Sort.Direction.ASC, "id");
+        Page<Customer> pageCustomer = customerRepository.findAll(new Specification<Customer>(){
+            @Override
+            public Predicate toPredicate(Root<Customer> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
+                List<Predicate> list = new ArrayList<Predicate>();
+//                if(null!=customer.getName()&&!"".equals(customer.getName())){
+//                    list.add(criteriaBuilder.equal(root.get("name").as(String.class), customer.getName()));
+//                }
+                if(null!=customer.getName()&&!"".equals(customer.getName())){
+                    list.add(criteriaBuilder.like(root.get("name").as(String.class), "%"+customer.getName()+"%"));
+                }
+                Predicate[] p = new Predicate[list.size()];
+                return criteriaBuilder.and(list.toArray(p));
+            }
+        },pageable);
+
+
+
+
+
+//        Pageable pageable = new PageRequest(page,size);
+
+//        Page<Customer> pageCustomer = customerRepository.findAll(pageable);
 
         System.out.println("查询总页数:"+pageCustomer.getTotalPages());
         System.out.println("查询总记录数:"+pageCustomer.getTotalElements());

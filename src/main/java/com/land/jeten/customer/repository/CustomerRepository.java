@@ -2,6 +2,9 @@ package com.land.jeten.customer.repository;
 
 import com.land.jeten.vo.Customer;
 import com.land.jeten.vo.LoginUser;
+import org.springframework.data.domain.Page;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
@@ -12,7 +15,8 @@ import java.util.List;
 
 //public interface CustomerRepository extends Repository<Customer, Long>
 //public interface CustomerRepository extends CrudRepository<Customer, Integer>
-public interface CustomerRepository extends PagingAndSortingRepository<Customer, Integer>
+//public interface CustomerRepository extends PagingAndSortingRepository<Customer, Integer>
+public interface CustomerRepository extends JpaRepository<Customer, Integer>,JpaSpecificationExecutor<Customer>
 {
     List<Customer> findByNameAndId(String name, String id);
 
@@ -27,4 +31,7 @@ public interface CustomerRepository extends PagingAndSortingRepository<Customer,
 
     @Query(value = "from Customer u where u.id=:id")
     Customer findOne(@Param("id") int id);
+
+
+//    Page<Customer> findBookCriteria(Integer page, Integer size, Customer customer);
 }
