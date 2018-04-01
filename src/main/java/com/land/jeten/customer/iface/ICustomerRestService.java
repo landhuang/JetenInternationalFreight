@@ -1,5 +1,6 @@
 package com.land.jeten.customer.iface;
 
+import com.land.jeten.mybatis.model.CustomerModel;
 import com.land.jeten.vo.Customer;
 import com.land.jeten.vo.LoginUser;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -13,17 +14,17 @@ import java.util.Map;
 @RequestMapping(value = "/customer")
 public interface ICustomerRestService {
   @RequestMapping(value = "/", method = RequestMethod.GET)
-  List<Customer> getCustomerList();
+  List<CustomerModel> getCustomerList(Map<String, Object> map);
 
   @RequestMapping(value = "/", method = RequestMethod.POST)
-  Map<String,Object> postCustomer(@ModelAttribute Customer customer);
+  Map<String,Object> postCustomer(@ModelAttribute CustomerModel customer);
 
-  @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-  Customer getCustomer(@PathVariable int id);
+  @RequestMapping(value = "/{customerID}", method = RequestMethod.GET)
+  CustomerModel getCustomer(@PathVariable String customerID);
 
-  @RequestMapping(value="/{id}", method=RequestMethod.PUT)
-  Map<String,Object> putCustomer(@PathVariable int id, @ModelAttribute Customer customer);
+  @RequestMapping(value="/{customerID}", method=RequestMethod.PUT)
+  Map<String,Object> putCustomer(@PathVariable String customerID, @ModelAttribute CustomerModel customer);
 
-  @RequestMapping(value="/{id}", method=RequestMethod.DELETE)
-  Map<String,Object> deleteCustomer(@PathVariable int id);
+  @RequestMapping(value="/{customerID}", method=RequestMethod.DELETE)
+  Map<String,Object> deleteCustomer(@PathVariable String customerID);
 }
