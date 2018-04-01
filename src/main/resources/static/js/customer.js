@@ -5,8 +5,8 @@ const appCustomerInfo = new Vue({
         data: {
             products: [],
             customerObjData: {
-              id: '',
-              name: '',
+              customerID: '',
+              customerName: '',
               weixinid: '',
               telphone: '',
               address: '',
@@ -38,9 +38,9 @@ const appCustomerInfo = new Vue({
             },
             customerNew: function () {
               $('#customerObjDiv').modal('show');
-              appCustomerInfo.customerObjData.id = "";
-              appCustomerInfo.customerObjData.name = "";
-              appCustomerInfo.customerObjData.weixinid = "";
+              appCustomerInfo.customerObjData.customerID = "";
+              appCustomerInfo.customerObjData.customerName = "";
+              appCustomerInfo.customerObjData.weixinID = "";
               appCustomerInfo.customerObjData.telphone = "";
               appCustomerInfo.customerObjData.address = "";
               appCustomerInfo.customerObjData.description = "";
@@ -50,8 +50,8 @@ const appCustomerInfo = new Vue({
                 console.log("customerAdd....");
                 var params = new URLSearchParams();
                 // params.append('id', appCustomerInfo.customerObjData.id);
-                params.append('name', appCustomerInfo.customerObjData.name);
-                params.append('weixinid', appCustomerInfo.customerObjData.weixinid);
+                params.append('customerName', appCustomerInfo.customerObjData.customerName);
+                params.append('weixinID', appCustomerInfo.customerObjData.weixinID);
                 params.append('telphone', appCustomerInfo.customerObjData.telphone);
                 params.append('address', appCustomerInfo.customerObjData.address);
                 params.append('description', appCustomerInfo.customerObjData.description);
@@ -70,7 +70,7 @@ const appCustomerInfo = new Vue({
                   });                  
                 }
                 if(newOrEdit == "edit"){
-                  axios.put('/customer/'+appCustomerInfo.customerObjData.id, params)
+                  axios.put('/customer/'+appCustomerInfo.customerObjData.customerID, params)
                   .then(function (response) {
                       if (response.status != 200) {
                           alert("200:" + response.message + "]");
@@ -84,9 +84,9 @@ const appCustomerInfo = new Vue({
                 }
                 
             },
-            customerDetail: function (customerid) {
-                console.log("customerid[" + customerid + "]");
-                axios.get("/customer/" + customerid)
+            customerDetail: function (customerID) {
+                console.log("customerID[" + customerID + "]");
+                axios.get("/customer/" + customerID)
                 .then(function (response) {
                     if (response.status != 200) {
                         console.log("customerData 400:" + response.message + "]");
@@ -100,17 +100,17 @@ const appCustomerInfo = new Vue({
                 });
                 newOrEdit = "edit";
             },
-            customerEdit: function (customerid) {
+            customerEdit: function (customerID) {
                 console.log("customerAdd....");
                 var params = new URLSearchParams();
                 // params.append('id', appCustomerInfo.customerObjData.id);
-                params.append('name', appCustomerInfo.customerObjData.name);
-                params.append('weixinid', appCustomerInfo.customerObjData.weixinid);
+                params.append('customerName', appCustomerInfo.customerObjData.customerName);
+                params.append('weixinID', appCustomerInfo.customerObjData.weixinID);
                 params.append('telphone', appCustomerInfo.customerObjData.telphone);
                 params.append('address', appCustomerInfo.customerObjData.address);
                 params.append('description', appCustomerInfo.customerObjData.description);
 
-                axios.put('/customer/'+customerid, params)
+                axios.put('/customer/'+customerID, params)
                 .then(function (response) {
                     if (response.status != 200) {
                         alert("200:" + response.message + "]");
