@@ -1,118 +1,55 @@
 package com.land.jeten.customer.impl;
 
-
 import com.land.jeten.customer.iface.ICustomerRestService;
-import com.land.jeten.customer.repository.CustomerRepository;
-import com.land.jeten.example.domain.User;
-import com.land.jeten.login.iface.ILoginRestService;
-import com.land.jeten.login.repository.LoginUserRepository;
-import com.land.jeten.vo.Customer;
-import com.land.jeten.vo.LoginUser;
+import com.land.jeten.customer.mapper.CustomerMapper;
+import com.land.jeten.mybatis.model.CustomerModel;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.domain.Specification;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RestController;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.PageRequest;
-
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
 import java.util.*;
+
 
 @RestController
 public class CustomerRestServiceImpl implements ICustomerRestService {
 
-    static Map<String, Customer> users = Collections.synchronizedMap(new HashMap<String, Customer>());
-
     @Autowired
-    private ICustomerRestService customerService;
-
-    @Autowired
-    private CustomerRepository customerRepository;
+    private CustomerMapper customerMapper;
 
     @Override
-    public List<Customer> getCustomerList(Map<String, Object> map) {
-
-
-        Customer customer = new Customer();
-
-        customer.setName("admin1");
-
-        Object objectPage = map.get("page");
-        Object objectSize = map.get("size");
-
-        int page = objectPage == null ? 0:(Integer)objectPage;
-        int size =  objectSize == null ? 10:(Integer)objectSize;
-
-        Pageable pageable = new PageRequest(page, size, Sort.Direction.ASC, "id");
-        Page<Customer> pageCustomer = customerRepository.findAll(new Specification<Customer>(){
-            @Override
-            public Predicate toPredicate(Root<Customer> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
-                List<Predicate> list = new ArrayList<Predicate>();
-//                if(null!=customer.getName()&&!"".equals(customer.getName())){
-//                    list.add(criteriaBuilder.equal(root.get("name").as(String.class), customer.getName()));
-//                }
-                if(null!=customer.getName()&&!"".equals(customer.getName())){
-                    list.add(criteriaBuilder.like(root.get("name").as(String.class), "%"+customer.getName()+"%"));
-                }
-                Predicate[] p = new Predicate[list.size()];
-                return criteriaBuilder.and(list.toArray(p));
-            }
-        },pageable);
-
-
-
-
-
-//        Pageable pageable = new PageRequest(page,size);
-
-//        Page<Customer> pageCustomer = customerRepository.findAll(pageable);
-
-        System.out.println("查询总页数:"+pageCustomer.getTotalPages());
-        System.out.println("查询总记录数:"+pageCustomer.getTotalElements());
-        System.out.println("查询当前第几页:"+pageCustomer.getNumber()+1);
-        System.out.println("查询当前页面的集合:"+pageCustomer.getContent());
-        System.out.println("查询当前页面的记录数:"+pageCustomer.getNumberOfElements());
-        System.out.println("查询当前页面的记录数:"+pageCustomer.getContent());
-
-        List<Customer> list = pageCustomer.getContent();
-        return list;
+    public List<CustomerModel> getCustomerList(Map<String, Object> map) {
+        List<CustomerModel> customerList = customerMapper.getAll();
+        return customerList;
     }
 
     @Override
-    public Map<String, Object> postCustomer(Customer customer) {
-        customerRepository.save(customer);
+    public Map<String, Object> postCustomer(CustomerModel customer) {
+        customer.setCustomerID("customerinfo"+UUID.randomUUID().toString());
+        customerMapper.insert(customer);
         Map<String, Object> map = new Hashtable<>();
         map.put("message", "成功");
         return map;
     }
 
     @Override
-    public Customer getCustomer(@PathVariable int id) {
-        System.out.println("id:" + id + "]");
-        Customer customer = customerRepository.findOne(id);
+    public CustomerModel getCustomer(@PathVariable String customerID) {
+        System.out.println("customerID:" + customerID + "]");
+        CustomerModel customer = customerMapper.getOne(customerID);
         return customer;
     }
 
     @Override
-    public Map<String, Object> putCustomer(@PathVariable int id, Customer customer) {
-        customer.setId(id);
-        customerRepository.save(customer);
+    public Map<String, Object> putCustomer(@PathVariable String customerID, CustomerModel customer) {
+        customerMapper.update(customer);
         Map<String, Object> map = new Hashtable<>();
         map.put("message", "成功");
         return map;
     }
 
     @Override
-    public Map<String, Object> deleteCustomer(@PathVariable int id) {
-        customerRepository.delete(id);
+    public Map<String, Object> deleteCustomer(@PathVariable String customerID) {
         Map<String, Object> map = new Hashtable<>();
         map.put("message", "成功");
         return map;
     }
-
 }
