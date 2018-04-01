@@ -144,13 +144,13 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text" id="inputGroup-sizing-default-username">姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名</span>
                     </div>
-                    <input type="text" v-model='customerObjData.name' class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+                    <input type="text" v-model='customerObjData.customerName' class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
                   </div>
                   <div class="input-group mb-3">
                     <div class="input-group-prepend">
                       <span class="input-group-text" id="inputGroup-sizing-default-weixinid">微信&nbsp;&nbsp;&nbsp;&nbsp;ID</span>
                     </div>
-                    <input type="text" v-model='customerObjData.weixinid' class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+                    <input type="text" v-model='customerObjData.weixinID' class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
                   </div>
                   <div class="input-group mb-3">
                     <div class="input-group-prepend">
@@ -193,6 +193,18 @@
               <li class="page-item">
                 <a class="page-link" href="#">Next</a>
               </li>
+              <!-- Default dropright button -->
+              <div class="btn-group dropright">
+                <button type="button" class="btn btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Dropright
+                </button>
+                <div class="dropdown-menu">
+                  <!-- Dropdown menu links -->
+                  <a class="dropdown-item" href="#">Separated link1</a>
+                  <a class="dropdown-item" href="#">Separated link2</a>
+                  <a class="dropdown-item" href="#">Separated link3</a>
+                </div>
+              </div>
             </ul>
           </nav>
           <div id="customerListDiv" class="table-responsive">
@@ -208,11 +220,11 @@
               </thead>
               <tbody>
               <tr v-for="customer in customerListData">
-                <td>{{ customer.id }}</td>
-                <td>{{ customer.name }}</td>
-                <td>{{ customer.weixinid }}</td>
+                <td>{{ customer.customerID }}</td>
+                <td>{{ customer.customerName }}</td>
+                <td>{{ customer.weixinID }}</td>
                 <td>{{ customer.telphone }}</td>
-                <td><button class="btn btn-sm btn-outline-secondary" @click="customerDetail(customer.id)" data-toggle="modal" data-target="#customerDiv">1修改{{ customer.id }}</button></td>
+                <td><button class="btn btn-sm btn-outline-secondary" @click="customerDetail(customer.customerID)" data-toggle="modal" data-target="#customerDiv">修改</button></td>
               </tr>
               </tbody>
             </table>
