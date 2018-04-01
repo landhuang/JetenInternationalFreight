@@ -18,3 +18,30 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL5Dialect
+
+
+
+
+
+mybatis:
+  mapper-locations: classpath:/mybaits/*Mapper.xml
+
+#pagehelper分页插件配置
+pagehelper:
+  helperDialect: mysql
+  reasonable: true
+  supportMethodsArguments: true
+  params: count=countSql
+
+#日志配置
+logging:
+  level:
+    com:
+      land:
+        jeten: debug
+  org:
+    springframework:
+      web: debug
+      transaction: debug
+    mybatis: debug
+
