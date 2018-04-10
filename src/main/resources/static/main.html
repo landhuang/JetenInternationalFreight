@@ -14,11 +14,6 @@
 
   <!-- Custom styles for this template -->
   <link href="/bootstrap/css/dashboard.css" rel="stylesheet">
-  <!-- <script src="/js/vue.js"></script> -->
-  <!-- <script src="/js/xe-ajax.js"></script> -->
-  <!-- <script src="/js/xe-ajax-mock.js"></script> -->
-  <!-- <script src="/js/axios.js"></script> -->
-  <!-- <script src="/js/customer.js"></script> -->
 </head>
 
 <body>
@@ -207,7 +202,7 @@
             <table class="table table-striped table-sm">
               <thead>
               <tr>
-                <th>ID</th>
+                <th>序号</th>
                 <th>姓名</th>
                 <th>微信ID</th>
                 <th>电话</th>
@@ -215,8 +210,8 @@
               </tr>
               </thead>
               <tbody>
-              <tr v-for="customer in customerListData">
-                <td>{{ customer.customerID }}</td>
+              <tr v-for="(customer,index) in customerListData">
+                <td>{{ index+1 }}</td>
                 <td>{{ customer.customerName }}</td>
                 <td>{{ customer.weixinID }}</td>
                 <td>{{ customer.telphone }}</td>
