@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.land.jeten.customer.mapper.CustomerMapper" >
+    <resultMap id="BaseResultMap" type="com.land.jeten.mybatis.model.CustomerModel" >
+        <id column="customerid" property="customerID"/>
+        <result column="customername" property="customerName" />
+        <result column="weixinid" property="weixinID" />
+        <result column="telphone" property="telphone" />
+        <result column="address" property="address" />
+        <result column="description" property="description" />
+    </resultMap>
+
+    <sql id="Base_Column_List" >
+        customerid, customername, weixinid, telphone, address, description
+    </sql>
+
+    <select id="getAll" parameterType="map"  resultMap="BaseResultMap"  >
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM customerinfo
+        where 1=1
+        <if test="customerName != null">and customername = #{customerName}</if>
+    </select>
+
+    <select id="getOne" parameterType="java.lang.String" resultMap="BaseResultMap" >
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM customerinfo
+        WHERE customerid = #{customerID}
+    </select>
+
+    <insert id="insert" parameterType="com.land.jeten.mybatis.model.CustomerModel" >
+        INSERT INTO
+        customerinfo
+        (customerid,customername, weixinid, telphone, address, description)
+        VALUES
+        (#{customerID}, #{customerName}, #{weixinID}, #{telphone}, #{address}, #{description})
+    </insert>
+
+    <update id="update" parameterType="com.land.jeten.mybatis.model.CustomerModel" >
+        UPDATE
+        customerinfo
+        SET
+        <if test="customerName != null">customername = #{customerName},</if>
+        <if test="weixinID != null">weixinid = #{weixinID},</if>
+        <if test="telphone != null">telphone = #{telphone},</if>
+        <if test="address != null">address = #{address},</if>
+        <if test="description != null">description = #{description},</if>
+        telphone = #{telphone}
+        WHERE
+        customerid = #{customerID}
+    </update>
+
+    <delete id="delete" parameterType="java.lang.String" >
+        DELETE FROM
+        customerinfo
+        WHERE
+        customerid =#{customerID}
+    </delete>
+
+</mapper>
