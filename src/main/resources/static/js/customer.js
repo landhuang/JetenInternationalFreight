@@ -12,6 +12,16 @@ const appCustomerInfo = new Vue({
               address: '',
               description: ''
             },
+            jsonMsg: {
+              a: 'apple',
+              b: 'orage',
+              c: 'pear'
+            },
+            selectPara: {
+              pageNo: '1',
+              pageSize: '4'
+            },
+            pageNoList: ['1','2','3','4'],
             customerListData: [],
             message: {
                 msg: 'Hello Vue.js!'
@@ -23,18 +33,57 @@ const appCustomerInfo = new Vue({
             this.customerList();
         },
         methods: {
-            customerList: function () {
-                axios.get('/customer/')
+            pagePreviousOnClick: function () {
+              if(parseInt(appCustomerInfo.pageNoList[0],10) != 1){
+                this.pageNoList.filter(function(number,index){
+                    Vue.set(appCustomerInfo.pageNoList,index,parseInt(number,10)-1);                  
+                });
+              }
+            },
+            pageNextOnClick: function () {
+              this.pageNoList.filter(function(number,index){
+
+
+                Vue.set(appCustomerInfo.pageNoList,index,parseInt(number,10)+1);
+              });
+            },
+            pageGoOnClick: function (PageNo,index) {
+              this.customerList(PageNo);
+            },
+            customerList: function (PageNo) {
+//                var params = new URLSearchParams();
+//                params.append('pageNo', 1);
+//                params.append('customerName', "test");
+//
+//                axios.get('/customer/',params)
+//                .then(function (response) {
+//                    if (response.status != 200) {
+//                        console.log("400:" + response.message + "]");
+//                        return;
+//                    } else {
+//                        console.log("500:" + response.data + "]");
+//                        appCustomerInfo.customerListData = response.data;
+//                        console.log("[" + response.data + "]")
+//                    }
+//                });
+
+                var mapPara = new URLSearchParams();
+                mapPara.append('pageNo', 1);
+                mapPara.append('customerName', "test");
+                this.selectPara.pageNo = PageNo;
+                // this.selectPara.customerName = "test1";
+                axios.post('/customer/select',this.selectPara)
                 .then(function (response) {
                     if (response.status != 200) {
                         console.log("400:" + response.message + "]");
                         return;
                     } else {
                         console.log("500:" + response.data + "]");
-                        appCustomerInfo.customerListData = response.data;
+                        appCustomerInfo.customerListData = response.data.returnObject;
                         console.log("[" + response.data + "]")
                     }
                 });
+
             },
             customerNew: function () {
               $('#customerObjDiv').modal('show');
