@@ -1,11 +1,11 @@
 package com.land.jeten.customer.impl;
 
+import com.github.pagehelper.PageHelper;
 import com.land.jeten.customer.iface.ICustomerRestService;
 import com.land.jeten.customer.mapper.CustomerMapper;
 import com.land.jeten.mybatis.model.CustomerModel;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 
@@ -16,10 +16,50 @@ public class CustomerRestServiceImpl implements ICustomerRestService {
     @Autowired
     private CustomerMapper customerMapper;
 
+//    @Override
+//    public List<CustomerModel> getCustomerList() {
+//
+////        Object obj  = map.get("pageNo");
+////        String obj  = map.get("pageNo");
+//        int pageNo= 1;
+////        if(obj != null){
+////            pageNo =  Integer.parseInt(obj.toString());
+////        }
+//        if (pageNo > 0) {
+//            PageHelper.startPage(pageNo,3); // 设置分页，参数1=页数，参数2=每页显示条数
+//
+//        }
+//
+//        List<CustomerModel> customerList = customerMapper.getAll();
+//        return customerList;
+//    }
+
     @Override
-    public List<CustomerModel> getCustomerList(Map<String, Object> map) {
-        List<CustomerModel> customerList = customerMapper.getAll();
-        return customerList;
+    public Map<String, Object> selectCustomer(@RequestBody Map<String,Object> mapPara) {
+
+        Object objPageSize  = mapPara.get("pageSize");
+        Object objPageNo  = mapPara.get("pageNo");
+        int pageNo= 1;
+        if(objPageNo != null){
+            pageNo =  Integer.parseInt(objPageNo.toString());
+        }
+        int pageSize= 1;
+        if(objPageSize != null){
+            pageSize =  Integer.parseInt(objPageSize.toString());
+        }
+        if (pageNo > 0) {
+            PageHelper.startPage(pageNo,pageSize); // 设置分页，参数1=页数，参数2=每页显示条数
+
+        }
+
+        List<CustomerModel> customerList = customerMapper.getAll(mapPara);
+
+
+
+        Map<String, Object> map = new Hashtable<>();
+        map.put("message", "成功");
+        map.put("returnObject", customerList);
+        return map;
     }
 
     @Override
@@ -34,8 +74,7 @@ public class CustomerRestServiceImpl implements ICustomerRestService {
     @Override
     public CustomerModel getCustomer(@PathVariable String customerID) {
         System.out.println("customerID:" + customerID + "]");
-        CustomerModel customer = customerMapper.getOne(customerID);
-        return customer;
+        return customerMapper.getOne(customerID);
     }
 
     @Override
@@ -52,4 +91,12 @@ public class CustomerRestServiceImpl implements ICustomerRestService {
         map.put("message", "成功");
         return map;
     }
+
+
+//    public List<CustomerModel> selectStudentByPage(@PathVariable int pageNo) {
+//        if (pageNo > 0) {
+//            PageHelper.startPage(pageNo,3); // 设置分页，参数1=页数，参数2=每页显示条数
+//        }
+//        return customerMapper.getAll();
+//    }
 }
