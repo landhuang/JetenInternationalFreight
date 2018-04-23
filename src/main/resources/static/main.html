@@ -11,9 +11,17 @@
 
   <!-- Bootstrap core CSS -->
   <link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+  <link href="/bootstrap/css/bootstrap-datetimepicker.css" rel="stylesheet">
 
   <!-- Custom styles for this template -->
   <link href="/bootstrap/css/dashboard.css" rel="stylesheet">
+
+  <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+  <!--[if lt IE 9]>
+  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+
+
 </head>
 
 <body>
@@ -33,9 +41,9 @@
 
   <div class="container-fluid">
     <div class="row">
-    
+
       <nav desc="左边导航菜单" class="col-md-2 d-none d-md-block bg-light sidebar">
-        <div class="sidebar-sticky">
+        <div class="sidebar-sticky" id="sidebarDivID">
           <ul class="nav flex-column">
             <li class="nav-item">
               <a class="nav-link" href="#">
@@ -46,7 +54,7 @@
             <li class="nav-item">
               <a class="nav-link" href="#">
                 <span data-feather="file"></span>
-                我的订单
+               用户信息
               </a>
             </li>
             <li class="nav-item">
@@ -64,6 +72,24 @@
             <li class="nav-item">
               <a class="nav-link" href="#">
                 <span data-feather="bar-chart-2"></span>
+                管理员信息
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">
+                <span data-feather="bar-chart-2"></span>
+                客户信息
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">
+                <span data-feather="bar-chart-2"></span>
+                跟单员信息
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">
+                <span data-feather="bar-chart-2"></span>
                 物流查询
               </a>
             </li>
@@ -76,34 +102,34 @@
           </ul>
 
           <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-            <span>Saved reports</span>
+            <span>客户管理</span>
             <a class="d-flex align-items-center text-muted" href="#">
               <span data-feather="plus-circle"></span>
             </a>
           </h6>
           <ul class="nav flex-column mb-2">
             <li class="nav-item">
-              <a class="nav-link" href="#">
+              <a class="nav-link" href="#" @click="navItemShow()">
                 <span data-feather="file-text"></span>
-                Current month
+                我的快递
               </a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#">
                 <span data-feather="file-text"></span>
-                Last quarter
+                我的海运
               </a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#">
                 <span data-feather="file-text"></span>
-                Social engagement
+                我的空运
               </a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#">
                 <span data-feather="file-text"></span>
-                Year-end sale
+                我的信息
               </a>
             </li>
           </ul>
@@ -112,6 +138,268 @@
 
       <main desc="右边内容" role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
         <div desc="管理员信息" id="管理员信息">
+        </div>
+        <div desc="用户信息" id="userInfoComponents">
+          <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+            <h1 class="h2">用户信息</h1>
+            <div class="btn-toolbar mb-2 mb-md-0">
+
+              <div class="btn-group mr-2">
+                <button class="btn btn-sm btn-outline-secondary" data-toggle="modal" @click="newObject" data-target="#userObjDiv">新增用户信息</button>
+                <button class="btn btn-sm btn-outline-secondary">Export</button>
+              </div>
+              <button class="btn btn-sm btn-outline-secondary dropdown-toggle">
+                <span data-feather="calendar"></span>
+                This week
+              </button>
+            </div>
+          </div>
+          <div id="userObjectDiv" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="userModalLongTitle">用户信息</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" id="inputGroup-userObjectData-fullname">全&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名</span>
+                    </div>
+                    <input type="text" v-model='userObjectData.fullName' class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+                  </div>
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" id="inputGroup-userObjectData-namecn">中&nbsp;&nbsp;文&nbsp;&nbsp;名</span>
+                    </div>
+                    <input type="text" v-model='userObjectData.nameCN' class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+                  </div>
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" id="inputGroup-userObjectData-nameen">英&nbsp;&nbsp;文&nbsp;&nbsp;名</span>
+                    </div>
+                    <input type="text" v-model='userObjectData.nameEN' class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+                  </div>
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" id="inputGroup-userObjectData-weixinid">微&nbsp;&nbsp;信&nbsp;&nbsp;号</span>
+                    </div>
+                    <input type="text" v-model='userObjectData.weixinID' class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+                  </div>
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" id="inputGroup-userObjectData-telphone">电话号码</span>
+                    </div>
+                    <input type="text" v-model='userObjectData.telphone' class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+                  </div>
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" id="inputGroup-userObjectData-birthday">生&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;日</span>
+                    </div>
+                    <div>
+                    <div class="input-group date form_date" data-date-format="yyyy-mm-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
+                      <input type="text" id="userObjectFormDateBirthday" v-model='userObjectData.birthday' class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+                      <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                    </div>
+                    </div>
+                  </div>
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" id="inputGroup-userObjectData-gender">性&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;别</span>
+                    </div>
+                      <select class="form-control" v-model="userObjectData.gender">
+                        <option value="M">男</option>
+                        <option value="F">女</option>
+                      </select>
+                  </div>
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" id="inputGroup-userObjectData-description">备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注</span>
+                    </div>
+                    <input type="text" v-model='userObjectData.description' class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                  <button type="button" @click="addOrUpdateObject" type="submit" class="btn btn-primary">保存</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-left">
+              <li class="page-item">
+                <a class="page-link" href="#" tabindex="-1" @click="pagePreviousOnClick()">Previous</a>
+              </li>
+              <li class="page-item" v-for="(pageNo,index) in pageNoList">
+                <a class="page-link" href="#" @click="pageGoOnClick(pageNo,index)">{{ pageNo }}</a>
+              </li>
+              <li class="page-item">
+                <a class="page-link" href="#" @click="pageNextOnClick()">Next</a>
+              </li>
+            </ul>
+          </nav>
+          <div id="userListDiv" class="table-responsive">
+            <table class="table table-striped table-sm">
+              <thead>
+              <tr>
+                <th>序号</th>
+                <th>中文名</th>
+                <th>英文名</th>
+                <th>微信号</th>
+                <th>电话号码</th>
+                <th>生日</th>
+                <th>性别</th>
+                <th>操作</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr v-for="(user,index) in userListData">
+                <td>{{ index+1 }}</td>
+                <td>{{ user.nameCN }}</td>
+                <td>{{ user.nameEN }}</td>
+                <td>{{ user.weixinID }}</td>
+                <td>{{ user.telphone }}</td>
+                <td>{{ user.birthday }}</td>
+                <td>{{ user.gender  | filtersGender }}</td>
+                <td><button class="btn btn-sm btn-outline-secondary" @click="getObjectDetail(user.userID)" data-toggle="modal" data-target="#userObjectDiv">修改</button></td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div desc="我的快递" id="expressInfo">
+          <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+            <h1 class="h2">我的快递</h1>
+            <div class="btn-toolbar mb-2 mb-md-0">
+              <div class="btn-group mr-2">
+                <button class="btn btn-sm btn-outline-secondary" data-toggle="modal" v-on:click="expressNew" data-target="#expressObjDiv">新增快递信息</button>
+                <button class="btn btn-sm btn-outline-secondary">Export</button>
+              </div>
+              <button class="btn btn-sm btn-outline-secondary dropdown-toggle">
+                <span data-feather="calendar"></span>
+                This week
+              </button>
+            </div>
+          </div>
+
+          <!-- ########################################################################################################-->
+
+          <div id="expressObjDiv" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLongTitle">我的快递信息</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" id="inputGroup-sizing-default-expressname">快递公司名称</span>
+                    </div>
+                    <input type="text" v-model='expressObjData.expressName' class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+                  </div>
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" id="inputGroup-sizing-default-expressname">客&nbsp;&nbsp;&nbsp;&nbsp;户&nbsp;&nbsp;&nbsp;I&nbsp;&nbsp;&nbsp;D</span>
+                    </div>
+                    <select id="inputState" class="form-control" @change="customerSelectChange" v-model="customerSelected">
+                      <option v-for="option in customerOptions" v-bind:value="option.customerID">
+                        {{ option.customerName }}
+                      </option>
+                    </select>
+                    <input type="hidden" v-model='expressObjData.customerID' class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+                  </div>
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" id="inputGroup-sizing-default-expresstype">货&nbsp;&nbsp;物&nbsp;&nbsp;类&nbsp;&nbsp;型&nbsp;</span>
+                    </div>
+                    <input type="text" v-model='expressObjData.expressType' class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+                  </div>
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" id="inputGroup-sizing-default-expressnumber">快&nbsp;&nbsp;递&nbsp;&nbsp;单&nbsp;&nbsp;号&nbsp;</span>
+                    </div>
+                    <input type="text" v-model='expressObjData.expressNumber' class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+                  </div>
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" id="inputGroup-sizing-default-goodsitem">快&nbsp;&nbsp;递&nbsp;&nbsp;件&nbsp;&nbsp;数&nbsp;</span>
+                    </div>
+                    <input type="text" v-model='expressObjData.goodsItem' class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+                  </div>
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" id="inputGroup-sizing-default-goodsamount">货&nbsp;&nbsp;物&nbsp;&nbsp;金&nbsp;&nbsp;额&nbsp;</span>
+                    </div>
+                    <input type="text" v-model='expressObjData.goodsAmount' class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+                  </div>
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" id="inputGroup-sizing-default-description">备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注</span>
+                    </div>
+                    <input type="text" v-model='expressObjData.description' class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                  <button type="button" v-on:click="expressAdd" type="submit" class="btn btn-primary">保存</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ########################################################################################################-->
+
+          <!-- <h2>客户信息</h2> -->
+          <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-left">
+              <!-- <li class="page-item disabled"> -->
+              <li class="page-item">
+                <!-- <a class="page-link" href="#" tabindex="-1" @click="pagePreviousOnClick()">Previous</a> -->
+                <a class="page-link" href="#" tabindex="-1" @click="pagePreviousOnClick()">Previous</a>
+              </li>
+              <li class="page-item" v-for="(pageNo,index) in pageNoList">
+                <a class="page-link" href="#" @click="pageGoOnClick(pageNo,index)">{{ pageNo }}</a>
+              </li>
+              <li class="page-item">
+                <a class="page-link" href="#" @click="pageNextOnClick()">Next</a>
+              </li>
+            </ul>
+          </nav>
+
+          <div id="expressListDiv" class="table-responsive">
+            <table class="table table-striped table-sm">
+              <thead>
+              <tr>
+                <th>序号</th>
+                <th>快递公司名称</th>
+                <th>货物类型</th>
+                <th>快递单号</th>
+                <th>快递件数</th>
+                <th>货物金额</th>
+                <th>操作</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr v-for="(express,index) in expressListData">
+                <td>{{ index+1 }}</td>
+                <td>{{ express.expressName }}</td>
+                <td>{{ express.expressType }}</td>
+                <td>{{ express.expressNumber }}</td>
+                <td>{{ express.goodsItem }}</td>
+                <td>{{ express.goodsAmount }}</td>
+                <td><button class="btn btn-sm btn-outline-secondary" @click="expressDetail(express.expressID)" data-toggle="modal" data-target="#expressDiv">修改</button></td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+
         </div>
         <div desc="客户信息" id="customerInfo">
           <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
@@ -197,7 +485,7 @@
               </li>
             </ul>
           </nav>
-          
+
           <div id="customerListDiv" class="table-responsive">
             <table class="table table-striped table-sm">
               <thead>
@@ -240,7 +528,8 @@
     <script src="/js/xe-ajax.js"></script>
     <script src="/js/xe-ajax-mock.js"></script>
     <script src="/js/axios.js"></script>
-    <script src="/js/customer.js"></script>
+    <!--<script src="/js/customer.js"></script>-->
+    <script src="/js/jetenComponents.js"></script>
     <script type="module"></script>
 <!--<div id="appTest">
 
@@ -248,7 +537,20 @@
       {{ product }}
     </li>
 </div>-->
+<script type="text/javascript" src="/datetime/js/bootstrap-datetimepicker.js" charset="UTF-8"></script>
 
+<script type="text/javascript" src="/datetime/js/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+
+    <script type="text/javascript">
+      $(".form_date").datetimepicker({
+         format: "yyyy-mm-dd",
+         autoclose: true,
+         todayBtn: true,
+         language:  'zh-CN',
+         minView: 2,
+         pickerPosition: "bottom-left"
+      });
+    </script>
 </body>
 
 </html>
