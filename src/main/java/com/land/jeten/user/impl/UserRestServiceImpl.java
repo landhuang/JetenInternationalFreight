@@ -32,19 +32,6 @@ public class UserRestServiceImpl implements IUserRestService {
     }
     @Override
     public Map<String, Object> select(@RequestBody Map<String,Object> mapPara) {
-        Object objPageSize  = mapPara.get("pageSize");
-        Object objPageNo  = mapPara.get("pageNo");
-        int pageNo= 1;
-        if(objPageNo != null){
-            pageNo =  Integer.parseInt(objPageNo.toString());
-        }
-        int pageSize= 1;
-        if(objPageSize != null){
-            pageSize =  Integer.parseInt(objPageSize.toString());
-        }
-        if (pageNo > 0) {
-            PageHelper.startPage(pageNo,pageSize); // 设置分页，参数1=页数，参数2=每页显示条数
-        }
         List<UserModel> list = mapper.getAll(mapPara);
         Map<String, Object> map = new Hashtable<>();
         map.put("message", "成功");

@@ -19,20 +19,15 @@ public class CustomerRestServiceImpl implements ICustomerRestService {
     private CustomerMapper customerMapper;
 
     @Override
+    public Map<String, Object> getSelectOptionsCustomer() {
+        Map<String, Object> map = new Hashtable<>();
+        List<CustomerModel> customerList = customerMapper.getSelectOptionsAll();
+        map.put("message", "成功");
+        map.put("returnObject", customerList);
+        return map;
+    }
+    @Override
     public Map<String, Object> selectCustomer(@RequestBody Map<String,Object> mapPara) {
-        Object objPageSize  = mapPara.get("pageSize");
-        Object objPageNo  = mapPara.get("pageNo");
-        int pageNo= 1;
-        if(objPageNo != null){
-            pageNo =  Integer.parseInt(objPageNo.toString());
-        }
-        int pageSize= 1;
-        if(objPageSize != null){
-            pageSize =  Integer.parseInt(objPageSize.toString());
-        }
-        if (pageNo > 0) {
-            PageHelper.startPage(pageNo,pageSize); // 设置分页，参数1=页数，参数2=每页显示条数
-        }
         List<CustomerModel> customerList = customerMapper.getAll(mapPara);
         Map<String, Object> map = new Hashtable<>();
         map.put("message", "成功");
