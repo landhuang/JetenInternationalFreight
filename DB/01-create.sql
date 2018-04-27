@@ -15,8 +15,15 @@ drop TABLE IF EXISTS admininfo;
 CREATE TABLE admininfo
 (
    adminid                CHAR(48)    COMMENT '管理员信息主键ID',            -- adminID
-   password               CHAR(48)    COMMENT '密码',                         -- adminPassword
-   description            CHAR(64)    COMMENT '备注'                          -- description
+   adminname              CHAR(48)    COMMENT '管理员姓名',                  -- adminName
+   loginalias             CHAR(48)    COMMENT '登录别名',                    -- loginAlias
+   adminpassword               CHAR(48)    COMMENT '密码',                         -- adminPassword
+   loginstate             CHAR(12)    COMMENT '登录状态:normal ',             -- loginState
+   description            CHAR(64)    COMMENT '备注',                         -- description
+   inserttimestamp        CHAR(17)    COMMENT '数据插入时间戳',            -- insertTimestamp
+   insertuserid           CHAR(48)    COMMENT '插入用户信息主键ID',        -- insertUserID
+   updatetimestamp        CHAR(17)    COMMENT '数据更新时间戳',            -- updateTimestamp
+   updateuserid           CHAR(48)    COMMENT '更新用户信息主键ID'         -- updateUserID
 );
 alter table admininfo add primary key(adminid);
 
@@ -65,7 +72,10 @@ CREATE TABLE customerinfo
 (
    customerid             CHAR(48)    COMMENT '客户主键ID',                -- customerID
    customername           CHAR(48)    COMMENT '客户名称',                  -- customerName
+   weixinid               CHAR(48)    COMMENT '微信号',                    -- weixinID
+   telphone               CHAR(36)    COMMENT '电话号码',                  -- telphone
    country                CHAR(128)   COMMENT '所在国家',                  -- country
+   address                CHAR(255)   COMMENT '地址',                      -- address
    description            CHAR(64)    COMMENT '备注',                      -- description
    inserttimestamp        CHAR(17)    COMMENT '数据插入时间戳',            -- insertTimestamp
    insertuserid           CHAR(48)    COMMENT '插入用户信息主键ID',       -- insertUserID
